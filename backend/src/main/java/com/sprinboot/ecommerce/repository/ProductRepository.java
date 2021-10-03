@@ -4,6 +4,7 @@ import com.sprinboot.ecommerce.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * @Created 03/10/2021 - 13:47
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
  * @User LegendDZ
  * @Author Abdelaaziz Ouakala
  **/
-@RepositoryRestResource(collectionResourceRel = "products",path = "products")
+//@RepositoryRestResource(collectionResourceRel = "products",path = "products")
+@CrossOrigin("http://localhost:4200/")
 public interface ProductRepository extends JpaRepository<Product,Long> {
 }
