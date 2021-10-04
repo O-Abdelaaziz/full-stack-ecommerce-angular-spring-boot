@@ -17,6 +17,12 @@ export class ProductService {
       .get<GetResponse>(this.baseUrl)
       .pipe(map((response) => response._embedded.products));
   }
+  // getProductListByCategoryId(categoryId:number): Observable<Product[]> {
+  //   const url =`${this.baseUrl}/search/findByCategoryId?id=${categoryId}`;
+  //   return this.httpClient
+  //     .get<GetResponse>(url)
+  //     .pipe(map((response) => response._embedded.products));
+  // }
 }
 
 interface GetResponse {
