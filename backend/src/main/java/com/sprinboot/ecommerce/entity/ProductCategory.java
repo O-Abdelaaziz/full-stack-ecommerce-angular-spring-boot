@@ -28,6 +28,6 @@ public class ProductCategory {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
     private Set<Product> products;
 }

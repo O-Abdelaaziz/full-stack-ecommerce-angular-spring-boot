@@ -10,17 +10,22 @@ import { Component, OnInit } from '@angular/core';
 export class ProductListComponent implements OnInit {
 
   products:Product[];
+  allowServers=false;
 
   constructor(private _productService:ProductService) { }
 
   ngOnInit(): void {
     this.onProductList();
+    console.log("allowServers",this.allowServers);
+    setTimeout(() => {
+      this.allowServers=true;
+    }, 5000);
+    
   }
 
   onProductList(){
     this._productService.getProductList().subscribe(
       (response)=>{
-        console.log(response);
         
         this.products=response;
       }
