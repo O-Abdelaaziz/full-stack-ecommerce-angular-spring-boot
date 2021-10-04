@@ -20,6 +20,13 @@ export class ProductService {
       .pipe(map((response) => response._embedded.products));
   }
 
+  getProductListByCategoryName(categoryName: string): Observable<Product[]> {
+    const url = `${this.baseUrl}/products/search/findByNameContainingIgnoreCase?name=${categoryName}`;
+    return this.httpClient
+      .get<GetResponseProduct>(url)
+      .pipe(map((response) => response._embedded.products));
+  }
+
   getProductCategoryList(): Observable<ProductCategory[]> {
     const url = `${this.baseUrl}/product-category`;
     return this.httpClient
