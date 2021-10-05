@@ -18,6 +18,33 @@
                 </div>
                 <div *ngIf="products?.length ===0" class="alert alert-warning col-md-12" role="alert">No products found</div>
             </div>
+            <div class="footer-pagination">
+                <div class="row">
+                    <div class="col-md-5"><p>Showing {{pageNumber}} to {{totalPages}} of {{totalElements}} entries</p></div>
+                    <div class="col-md-7 text-right">
+                        <div class="row">
+                            <div class="col-md-9" style="padding-left: 50%;">
+                                <ngb-pagination 
+                                [(page)]="pageNumber"
+                                [pageSize]="pageSize"
+                                [collectionSize]="totalElements"
+                                (pageChange)="handelListProduct()"
+                                
+                                ></ngb-pagination>
+                            </div>
+                            <div class="col-md-3 mt-2">
+                                <span class="mr-2">Page Size:</span>
+                                <select (change)="onPageSelect($event.target.value)">
+                                    <option value="5" selected>5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                  </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
