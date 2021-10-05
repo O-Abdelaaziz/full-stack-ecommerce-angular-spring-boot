@@ -26,11 +26,10 @@ export class ProductService {
       .get<GetResponseProduct>(url);
   }
 
-  getProductListByCategoryName(categoryName: string): Observable<Product[]> {
-    const url = `${this.baseUrl}/products/search/findByNameContainingIgnoreCase?name=${categoryName}`;
+  getProductListByCategoryName(categoryName: string,page:number,size:number): Observable<GetResponseProduct> {
+    const url = `${this.baseUrl}/products/search/findByNameContainingIgnoreCase?name=${categoryName}&page=${page}&size=${size}`;
     return this.httpClient
-      .get<GetResponseProduct>(url)
-      .pipe(map((response) => response._embedded.products));
+      .get<GetResponseProduct>(url);
   }
 
   getProductCategoryList(): Observable<ProductCategory[]> {

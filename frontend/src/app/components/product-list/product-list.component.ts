@@ -13,11 +13,12 @@ export class ProductListComponent implements OnInit {
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
   currentCategoryName: string;
+  previousKeyword: string = null;
   searchMode: boolean;
 
   pageNumber: number = 1;
   pageSize: number = 5;
-  totalPages:number;
+  totalPages: number;
   totalElements: number = 0;
 
   constructor(
@@ -42,11 +43,16 @@ export class ProductListComponent implements OnInit {
 
   handelSearchProduct() {
     const keyword = this._activatedRoute.snapshot.paramMap.get('keyword');
+
+    if (this.previousKeyword != keyword) {
+      this.pageNumber = 1;
+    }
+
+    this.previousKeyword = keyword;
+
     this._productService
-      .getProductListByCategoryName(keyword)
-      .subscribe((response) => {
-        this.products = response;
-      });
+      .getProductListByCategoryName(keyword, this.pageNumber - 1, this.pageSize)
+      .subscribe(this.getResponseData());
   }
 
   handelListProduct() {
@@ -67,8 +73,10 @@ export class ProductListComponent implements OnInit {
 
     this.previousCategoryId = this.currentCategoryId;
 
-    console.log('previousCategoryId: '+this.previousCategoryId,'currentCategoryId: '+this.currentCategoryId);
-    
+    console.log(
+      'previousCategoryId: ' + this.previousCategoryId,
+      'currentCategoryId: ' + this.currentCategoryId
+    );
 
     this._productService
       .getProductListByCategoryIdPagination(
@@ -76,18 +84,22 @@ export class ProductListComponent implements OnInit {
         this.pageNumber - 1,
         this.pageSize
       )
-      .subscribe((response) => {
-        this.products = response._embedded.products;
-        this.pageNumber = response.page.number + 1;
-        this.pageSize = response.page.size;
-        this.totalPages=response.page.totalPages;
-        this.totalElements = response.page.totalElements;
-      });
+      .subscribe(this.getResponseData());
   }
 
-  onPageSelect (pageSize:number){
-    this.pageSize=pageSize;
-    this.pageNumber=1;
+  onPageSelect(pageSize: number) {
+    this.pageSize = pageSize;
+    this.pageNumber = 1;
     this.handelListProduct();
+  }
+
+  getResponseData() {
+    return (response) => {
+      this.products = response._embedded.products;
+      this.pageNumber = response.page.number + 1;
+      this.pageSize = response.page.size;
+      this.totalPages = response.page.totalPages;
+      this.totalElements = response.page.totalElements;
+    };
   }
 }
