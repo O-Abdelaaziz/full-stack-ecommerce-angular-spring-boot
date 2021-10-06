@@ -1,3 +1,5 @@
+import { CartItem } from './../../common/cart-item';
+import { CartService } from './../../services/cart.service';
 import { ProductService } from './../../services/product.service';
 import { Product } from './../../common/product';
 import { Component, OnInit } from '@angular/core';
@@ -23,7 +25,8 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private _productService: ProductService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _cartService:CartService,
   ) {}
 
   ngOnInit(): void {
@@ -104,8 +107,8 @@ export class ProductListComponent implements OnInit {
   }
 
   onAddToCart(product:Product){
-    console.log('Name:' + product.name,' '+'Price: '+product.unitPrice);
     //TODO add to cart status logic
-    
+    const cartItem:CartItem=new CartItem(product);
+    this._cartService.addToCart(cartItem)
   }
 }

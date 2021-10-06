@@ -12,7 +12,7 @@ export class CartItem {
     this.name = product.name;
     this.unitPrice = product.unitPrice;
     this.imageUrl = product.imageUrl;
-    this.quantity = 1
+    this.quantity = 1;
   }
   
 

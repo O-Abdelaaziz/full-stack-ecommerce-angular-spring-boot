@@ -3,46 +3,44 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CartService {
+  cartItems: CartItem[] = [];
 
-  cartItems:CartItem[]=[];
+  totalPrice: Subject<number> = new Subject<number>();
+  totalQuantity: Subject<number> = new Subject<number>();
 
-  totalPrice:Subject<number> =new Subject<number>();
-  totalQuantity:Subject<number> =new Subject<number>();
-  
-  constructor() { }
+  constructor() {}
 
-  addToCart(cartItem:CartItem){
+  addToCart(cartItem: CartItem) {
     //check if we have already the item in our cart
-    let alreadyExistInCart:boolean=false;
-    let existingCartItem:CartItem=undefined;
+    let alreadyExistInCart: boolean = false;
+    let existingCartItem: CartItem = undefined;
 
-    if(this.cartItems.length>0){
-      for(let tempCartItem of this.cartItems){
-        if(tempCartItem.id === cartItem.id){
-          existingCartItem=tempCartItem;
+    if (this.cartItems.length > 0) {
+      for (let tempCartItem of this.cartItems) {
+        if (tempCartItem.id === cartItem.id) {
+          existingCartItem = tempCartItem;
           break;
         }
-
-        alreadyExistInCart= (existingCartItem != undefined);
-
-        if(alreadyExistInCart){
-          existingCartItem.quantity ++;
-        }else{
-          this.cartItems.push(cartItem)
-        }
-
-        this.computeCartTotals();
       }
+      alreadyExistInCart = existingCartItem != undefined;
     }
+
+    if (alreadyExistInCart) {
+      existingCartItem.quantity++;
+    } else {
+      this.cartItems.push(cartItem);
+    }
+
+    this.computeCartTotals();
   }
   computeCartTotals() {
-    let totalPriceValue=0
-    let totalQuantityValue=0
+    let totalPriceValue = 0;
+    let totalQuantityValue = 0;
 
-    for(let cartItem of this.cartItems){
+    for (let cartItem of this.cartItems) {
       totalPriceValue += cartItem.quantity * cartItem.unitPrice;
       totalQuantityValue += cartItem.quantity;
     }
