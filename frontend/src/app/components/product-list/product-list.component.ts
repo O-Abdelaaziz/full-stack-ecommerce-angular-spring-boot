@@ -102,4 +102,10 @@ export class ProductListComponent implements OnInit {
       this.totalElements = response.page.totalElements;
     };
   }
+
+  onAddToCart(product:Product){
+    console.log('Name:' + product.name,' '+'Price: '+product.unitPrice);
+    //TODO add to cart status logic
+    
+  }
 }
