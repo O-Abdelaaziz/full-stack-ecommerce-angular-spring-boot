@@ -1,3 +1,4 @@
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -10,6 +11,7 @@ const routes: Routes = [
   {path:'category',component:ProductListComponent},
   {path:'products',component:ProductListComponent},
   {path:'products/:id',component:ProductDetailsComponent},
+  {path:'cart-details',component:CartDetailsComponent},
   {path:'',redirectTo:'/products',pathMatch:'full'},
   {path:'**',redirectTo:'/products',pathMatch:'full'},
 ];
