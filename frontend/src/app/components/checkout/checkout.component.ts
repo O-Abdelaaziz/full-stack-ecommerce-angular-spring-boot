@@ -14,7 +14,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkoutFormGroup=this._formBuilder.group({
-      costumer:this._formBuilder.group({
+      customer:this._formBuilder.group({
         firstName:[''],
         lastName:[''],
         email:[''],
