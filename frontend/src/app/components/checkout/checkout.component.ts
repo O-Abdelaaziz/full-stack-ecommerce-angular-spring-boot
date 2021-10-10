@@ -69,9 +69,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   onGetCreditCardYear() {
-    this._checkoutService.
-    getCreditCardYear().
-    subscribe((response) => {
+    this._checkoutService.getCreditCardYear().subscribe((response) => {
       this.creditCardYear = response;
     });
   }
@@ -83,5 +81,26 @@ export class CheckoutComponent implements OnInit {
       .subscribe((response) => {
         this.creditCardMonth = response;
       });
+  }
+
+  handleMonthAndYear() {
+    const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+    const currentYear: number = new Date().getFullYear();
+    const selectedYear: number = Number(
+      creditCardFormGroup.value.expirationYear
+    );
+
+    let startMonth: number = 0;
+    if (currentYear === selectedYear) {
+      startMonth = new Date().getMonth() + 1;
+    } else {
+      startMonth = 1;
+    }
+
+    this._checkoutService
+      .getCreditCardMonth(startMonth)
+      .subscribe((response) => {
+        this.creditCardMonth = response;
+    });
   }
 }
