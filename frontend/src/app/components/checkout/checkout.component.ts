@@ -66,8 +66,12 @@ export class CheckoutComponent implements OnInit {
       this.checkoutFormGroup.controls.billingAddress.setValue(
         this.checkoutFormGroup.controls.shippingAddress.value
       );
+
+      this.statesBillingAddress=this.statesShippingAddress;
+
     } else {
       this.checkoutFormGroup.controls.billingAddress.reset();
+      this.statesBillingAddress=[];
     }
   }
 
@@ -133,7 +137,7 @@ export class CheckoutComponent implements OnInit {
     
   }
 
-  onGetStatesPracticalWay(targetAddress){
+  onGetStatesPracticalWay(targetAddress:string){
     const formGroup=this.checkoutFormGroup.get(targetAddress);
     const countryName=formGroup.value.country.name;
     const countryCode=formGroup.value.country.code;
