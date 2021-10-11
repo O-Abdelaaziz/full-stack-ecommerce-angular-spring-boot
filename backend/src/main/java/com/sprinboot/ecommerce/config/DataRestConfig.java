@@ -1,7 +1,9 @@
 package com.sprinboot.ecommerce.config;
 
+import com.sprinboot.ecommerce.entity.Country;
 import com.sprinboot.ecommerce.entity.Product;
 import com.sprinboot.ecommerce.entity.ProductCategory;
+import com.sprinboot.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -35,16 +37,19 @@ public class DataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         HttpMethod[] unSupportedActions = {HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE};
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure(((metadata, httpMethods) -> httpMethods.disable(unSupportedActions)))
-                .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedActions)));
 
+        disableHttpMethods(Product.class,config, unSupportedActions);
+        disableHttpMethods(ProductCategory.class,config, unSupportedActions);
+        disableHttpMethods(Country.class,config, unSupportedActions);
+        disableHttpMethods(State.class,config, unSupportedActions);
+
+    }
+
+    private void disableHttpMethods(Class targetClass, RepositoryRestConfiguration config, HttpMethod[] unSupportedActions) {
         config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
+                .forDomainType(targetClass)
                 .withItemExposure(((metadata, httpMethods) -> httpMethods.disable(unSupportedActions)))
                 .withCollectionExposure(((metdata, httpMethods) -> httpMethods.disable(unSupportedActions)));
-        exposeIds(config);
     }
 
     private void exposeIds(RepositoryRestConfiguration config) {
