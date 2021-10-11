@@ -1,3 +1,7 @@
+import { State } from './../common/state';
+import { map } from 'rxjs/operators';
+import { Country } from './../common/country';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
@@ -5,7 +9,22 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CheckoutService {
-  constructor() {}
+
+  private baseUrl = 'http://localhost:8080/api'
+
+  constructor(private httpClient: HttpClient) {}
+
+  getCountries(): Observable<Country[]> {
+    return this.httpClient.get<GetResponseCountry>(`${this.baseUrl}/countries`).pipe(
+      map(response => response._embedded.countries)
+    )
+  }
+
+  getState(countryCode:string): Observable<State[]> {
+    return this.httpClient.get<GetResponseState>(`${this.baseUrl}/states/search/findByCountryCode?code=${countryCode}`).pipe(
+      map(response => response._embedded.states)
+    )
+  }
 
   getCreditCardMonth(startMonth: number): Observable<number[]> {
     let data: number[] = [];
@@ -29,4 +48,17 @@ export class CheckoutService {
 
     return of(data);
   }
+  
+}
+
+interface GetResponseCountry {
+  _embedded: {
+    countries: Country[];
+  },
+}
+
+interface GetResponseState{
+  _embedded: {
+    states: State[];
+  },
 }
