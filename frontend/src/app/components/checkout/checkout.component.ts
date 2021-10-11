@@ -133,4 +133,20 @@ export class CheckoutComponent implements OnInit {
     
   }
 
+  onGetStatesPracticalWay(targetAddress){
+    const formGroup=this.checkoutFormGroup.get(targetAddress);
+    const countryName=formGroup.value.country.name;
+    const countryCode=formGroup.value.country.code;
+    console.log(formGroup+" "+ countryName +" " +countryCode);
+    
+    this._checkoutService.getState(countryCode).subscribe((response)=>{
+      if(targetAddress==='shippingAddress'){
+        this.statesShippingAddress=response;
+      }else{
+        this.statesBillingAddress=response;
+      }
+      formGroup.get('state').setValue(response[0]);
+    });
+  }
+
 }
