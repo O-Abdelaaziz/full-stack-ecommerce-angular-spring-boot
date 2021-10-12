@@ -303,6 +303,16 @@
                                     <option>Visa</option>
                                     <option>Mastercard</option>
                                 </select>
+
+                                <div *ngIf="creditCardCardType.invalid && (creditCardCardType.dirty || creditCardCardType.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardCardType.errors.required">
+                                        Card type is required
+                                    </div>
+
+                                    <div *ngIf="creditCardCardType.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -312,6 +322,17 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="nameOnCard" type="text">
+
+                                <div *ngIf="creditCardNameOnCard.invalid && (creditCardNameOnCard.dirty || creditCardNameOnCard.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardNameOnCard.errors.required">
+                                        Name on card is required
+                                    </div>
+
+                                    <div *ngIf="creditCardNameOnCard.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -321,6 +342,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="cardNumber" type="text">
+
+                                <div *ngIf="creditCardCardNumber.invalid && (creditCardCardNumber.dirty || creditCardCardNumber.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardCardNumber.errors.required">
+                                        Card number is required
+                                    </div>
+
+                                    <div *ngIf="creditCardCardNumber.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -330,6 +361,16 @@
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="securityCode" type="text">
+
+                                <div *ngIf="creditCardSecurityCode.invalid && (creditCardSecurityCode.dirty || creditCardSecurityCode.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardSecurityCode.errors.required">
+                                        Security code is required
+                                    </div>
+
+                                    <div *ngIf="creditCardSecurityCode.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -341,6 +382,16 @@
                                 <select formControlName="expirationMonth" >
                                     <option *ngFor="let month of creditCardMonth">{{month}}</option>
                                 </select>
+
+                                <div *ngIf="creditCardExpirationMonth.invalid && (creditCardExpirationMonth.dirty || creditCardExpirationMonth.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardExpirationMonth.errors.required">
+                                        Expiration month is required
+                                    </div>
+
+                                    <div *ngIf="creditCardExpirationMonth.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -352,6 +403,16 @@
                                 <select formControlName="expirationYear" (change)="handleMonthAndYear()">
                                     <option *ngFor="let year of creditCardYear">{{year}}</option>
                                 </select>
+
+                                <div *ngIf="creditCardExpirationYear.invalid && (creditCardExpirationYear.dirty || creditCardExpirationYear.touched)" class="text text-danger mt-1">
+                                    <div *ngIf="creditCardExpirationYear.errors.required">
+                                        Expiration year is required
+                                    </div>
+
+                                    <div *ngIf="creditCardExpirationYear.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

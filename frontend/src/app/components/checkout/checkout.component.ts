@@ -48,12 +48,12 @@ export class CheckoutComponent implements OnInit {
         zipCode: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
       }),
       creditCard: this._formBuilder.group({
-        cardType: [''],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
-        expirationMonth: [''],
-        expirationYear: [''],
+        cardType: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        nameOnCard: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        cardNumber: new FormControl('',[Validators.required,Validators.minLength(16),CustomValidators.notOnlyWhiteSpace]),
+        securityCode: new FormControl('',[Validators.required,Validators.minLength(3),CustomValidators.notOnlyWhiteSpace]),
+        expirationMonth: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        expirationYear: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
       }),
     });
 
@@ -91,6 +91,13 @@ export class CheckoutComponent implements OnInit {
   get billingAddressState(){return this.checkoutFormGroup.get('billingAddress.state');}
   get billingAddressCountry(){return this.checkoutFormGroup.get('billingAddress.country');}
   get billingAddressZipCode(){return this.checkoutFormGroup.get('billingAddress.zipCode');}
+
+  get creditCardCardType(){return this.checkoutFormGroup.get('creditCard.cardType');}
+  get creditCardNameOnCard(){return this.checkoutFormGroup.get('creditCard.nameOnCard');}
+  get creditCardCardNumber(){return this.checkoutFormGroup.get('creditCard.cardNumber');}
+  get creditCardSecurityCode(){return this.checkoutFormGroup.get('creditCard.securityCode');}
+  get creditCardExpirationMonth(){return this.checkoutFormGroup.get('creditCard.expirationMonth');}
+  get creditCardExpirationYear(){return this.checkoutFormGroup.get('creditCard.expirationYear');}
 
   onSubmit() {
     console.log(this.checkoutFormGroup.get('customer').value);
