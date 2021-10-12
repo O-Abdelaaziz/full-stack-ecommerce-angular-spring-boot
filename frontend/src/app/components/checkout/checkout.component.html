@@ -22,6 +22,10 @@
                                     <div *ngIf="firstName.errors.minlength">
                                         First Name must be at least 2 characters long
                                     </div>
+
+                                    <div *ngIf="firstName.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -40,6 +44,11 @@
                                     <div *ngIf="lastName.errors.minlength">
                                         Last Name must be at least 2 characters long
                                     </div>
+
+                                    <div *ngIf="firstName.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -57,6 +66,10 @@
 
                                     <div *ngIf="email.errors.pattern">
                                         Email must be a valid email address format
+                                    </div>
+
+                                    <div *ngIf="firstName.errors.notOnlyWhiteSpace">
+                                        White Space not allowed
                                     </div>
                                 </div>
                             </div>

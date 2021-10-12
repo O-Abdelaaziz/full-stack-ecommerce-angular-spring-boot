@@ -1,3 +1,4 @@
+import { CustomValidators } from './../../validators/custom-validators';
 import { State } from './../../common/state';
 import { Country } from './../../common/country';
 import { CheckoutService } from './../../services/checkout.service';
@@ -28,9 +29,9 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.checkoutFormGroup = this._formBuilder.group({
       customer: this._formBuilder.group({
-        firstName: new FormControl('',[Validators.required,Validators.minLength(2)]),
-        lastName: new FormControl('',[Validators.required,Validators.minLength(2)]),
-        email: new FormControl('',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
+        firstName: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        lastName: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        email: new FormControl('',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),CustomValidators.notOnlyWhiteSpace]),
       }),
       shippingAddress: this._formBuilder.group({
         street: [''],
