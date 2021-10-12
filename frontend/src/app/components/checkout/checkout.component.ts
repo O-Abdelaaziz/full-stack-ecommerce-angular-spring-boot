@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { CustomValidators } from './../../validators/custom-validators';
 import { State } from './../../common/state';
 import { Country } from './../../common/country';
@@ -12,7 +13,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class CheckoutComponent implements OnInit {
   checkoutFormGroup: FormGroup;
-  totalQuantity: number = 0;
+  totalQuantity: number = 0.00;
   totalPrice: number = 0;
   creditCardYear: number[] = [];
   creditCardMonth: number[] = [];
@@ -22,6 +23,7 @@ export class CheckoutComponent implements OnInit {
   statesBillingAddress:State[]=[];
 
   constructor(
+    private _cartService:CartService,
     private _formBuilder: FormBuilder,
     private _checkoutService: CheckoutService
   ) {}
@@ -60,6 +62,7 @@ export class CheckoutComponent implements OnInit {
     this.onGetCreditCardYear();
     this.onGetCreditCardMonth();
     this.onGetCountries();
+    this.updateCartStatus();
   }
 
   copyShippingAddressToBillingAddress(event) {
@@ -178,6 +181,21 @@ export class CheckoutComponent implements OnInit {
       }
       formGroup.get('state').setValue(response[0]);
     });
+  }
+
+  updateCartStatus(){
+
+    this._cartService.totalPrice.subscribe(
+      (response)=>{
+        this.totalPrice=response;
+      }
+    );
+
+    this._cartService.totalQuantity.subscribe(
+      (response)=>{
+        this.totalQuantity=response;
+      }
+    );
   }
 
 }
