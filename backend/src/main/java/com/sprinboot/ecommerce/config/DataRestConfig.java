@@ -42,7 +42,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class,config, unSupportedActions);
         disableHttpMethods(Country.class,config, unSupportedActions);
         disableHttpMethods(State.class,config, unSupportedActions);
-
+        
+        exposeIds(config);
     }
 
     private void disableHttpMethods(Class targetClass, RepositoryRestConfiguration config, HttpMethod[] unSupportedActions) {
