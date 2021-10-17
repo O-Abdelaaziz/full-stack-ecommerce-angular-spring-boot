@@ -66,7 +66,7 @@ public class Order {
     @JoinColumn(name = "billing_address_id",referencedColumnName ="id")
     private Address billingAddress;
 
-    private void add(OrderItem orderItem){
+    public void add(OrderItem orderItem){
         if(orderItem != null){
             if(orderItem ==null){
                 orderItems=new HashSet<>();

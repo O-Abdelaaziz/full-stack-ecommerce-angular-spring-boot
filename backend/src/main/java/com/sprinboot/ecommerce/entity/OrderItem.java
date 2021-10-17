@@ -33,9 +33,6 @@ public class OrderItem {
     @Column(name = "quantity")
     private String quantity;
 
-    @Column(name = "unit_price")
-    private String unit_price;
-
     @Column(name = "product_id")
     private Long productId;
 
