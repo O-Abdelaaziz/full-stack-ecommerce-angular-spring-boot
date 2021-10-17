@@ -1,3 +1,4 @@
+import { Purchase } from './../common/purchase';
 import { State } from './../common/state';
 import { map } from 'rxjs/operators';
 import { Country } from './../common/country';
@@ -47,6 +48,10 @@ export class CheckoutService {
     }
 
     return of(data);
+  }
+
+  placeOrder (purchase: Purchase):Observable<any>{
+    return this.httpClient.post<Purchase>(`${this.baseUrl}/checkout/purchase`,purchase);
   }
   
 }
