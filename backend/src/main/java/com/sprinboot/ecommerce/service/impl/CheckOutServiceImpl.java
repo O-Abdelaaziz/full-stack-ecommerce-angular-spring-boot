@@ -60,7 +60,6 @@ public class CheckOutServiceImpl implements ICheckOutService {
     }
 
     private String generateOrderTrackingNumber() {
-
         // generate a random UUID number (UUID version-4)
         // For details see: https://en.wikipedia.org/wiki/Universally_unique_identifier
         //
