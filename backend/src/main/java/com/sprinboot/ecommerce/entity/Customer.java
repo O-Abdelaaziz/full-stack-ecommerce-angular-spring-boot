@@ -39,7 +39,7 @@ public class Customer {
     private Set<Order> orders;
 
     public void add(Order order) {
-        if (order == null) {
+        if (orders == null) {
             orders = new HashSet<>();
         }
         orders.add(order);

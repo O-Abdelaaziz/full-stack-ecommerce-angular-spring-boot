@@ -42,8 +42,8 @@ public class CheckOutServiceImpl implements ICheckOutService {
         order.setOrderTrackingNumber(orderTrackingNumber);
 
         // populate order with orderItems
-        Set<OrderItem> orderItem=purchaseRequest.getOrderItem();
-        orderItem.forEach(item -> order.add(item));
+        Set<OrderItem> orderItems=purchaseRequest.getOrderItems();
+        orderItems.forEach(item -> order.add(item));
 
         // populate order with billingAddress and shippingAddress
         order.setShippingAddress(purchaseRequest.getShippingAddress());

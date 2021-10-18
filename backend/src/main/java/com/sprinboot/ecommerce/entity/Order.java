@@ -1,8 +1,6 @@
 package com.sprinboot.ecommerce.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -20,9 +18,8 @@ import java.util.Set;
  * @User LegendDZ
  * @Author Abdelaaziz Ouakala
  **/
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -55,7 +52,7 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderItem> orderItems;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -68,7 +65,7 @@ public class Order {
 
     public void add(OrderItem orderItem){
         if(orderItem != null){
-            if(orderItem ==null){
+            if(orderItems ==null){
                 orderItems=new HashSet<>();
             }
             orderItems.add(orderItem);

@@ -1,3 +1,7 @@
+import { Purchase } from './../../common/purchase';
+import { OrderItem } from './../../common/order-item';
+import { CartItem } from './../../common/cart-item';
+import { Order } from './../../common/order';
 import { CartService } from './../../services/cart.service';
 import { CustomValidators } from './../../validators/custom-validators';
 import { State } from './../../common/state';
@@ -5,6 +9,7 @@ import { Country } from './../../common/country';
 import { CheckoutService } from './../../services/checkout.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -25,7 +30,8 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private _cartService:CartService,
     private _formBuilder: FormBuilder,
-    private _checkoutService: CheckoutService
+    private _checkoutService: CheckoutService,
+    private _router:Router,
   ) {}
 
   ngOnInit(): void {
@@ -38,24 +44,24 @@ export class CheckoutComponent implements OnInit {
       shippingAddress: this._formBuilder.group({
         street: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
         city: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        state: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        country: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        state: new FormControl('',[Validators.required,Validators.minLength(2)]),
+        country: new FormControl('',[Validators.required,Validators.minLength(2)]),
         zipCode: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
       }),
       billingAddress: this._formBuilder.group({
         street: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
         city: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        state: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        country: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        state: new FormControl('',[Validators.required,Validators.minLength(2)]),
+        country: new FormControl('',[Validators.required,Validators.minLength(2)]),
         zipCode: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
       }),
       creditCard: this._formBuilder.group({
         cardType: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
         nameOnCard: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        cardNumber: new FormControl('',[Validators.required,Validators.minLength(16),CustomValidators.notOnlyWhiteSpace]),
+        cardNumber: new FormControl('',[Validators.required,Validators.maxLength(16),CustomValidators.notOnlyWhiteSpace]),
         securityCode: new FormControl('',[Validators.required,Validators.minLength(3),CustomValidators.notOnlyWhiteSpace]),
-        expirationMonth: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
-        expirationYear: new FormControl('',[Validators.required,Validators.minLength(2),CustomValidators.notOnlyWhiteSpace]),
+        expirationMonth: new FormControl('',[Validators.required,Validators.minLength(2)]),
+        expirationYear: new FormControl('',[Validators.required,Validators.minLength(2)]),
       }),
     });
 
@@ -102,11 +108,81 @@ export class CheckoutComponent implements OnInit {
   get creditCardExpirationMonth(){return this.checkoutFormGroup.get('creditCard.expirationMonth');}
   get creditCardExpirationYear(){return this.checkoutFormGroup.get('creditCard.expirationYear');}
 
+
+
+  
   onSubmit() {
     console.log(this.checkoutFormGroup.get('customer').value);
     if(this.checkoutFormGroup.invalid){
       this.checkoutFormGroup.markAllAsTouched();
+      return;
     }
+
+    // set up order
+    let order:Order  =new Order();
+    order.totalPrice=this.totalPrice;
+    order.totalQuantity=this.totalQuantity;
+    // get cart items
+    const cartItems:CartItem[]= this._cartService.cartItems;
+    // create orderItems from cartItems
+    //long way
+    // let orderItems:OrderItem[]=[];
+    // for(let i= 0;i<cartItems.length;i++){
+    //   orderItems[i]=new OrderItem(cartItems[i]);
+    // }
+
+    //short way
+    let orderItems:OrderItem[]=cartItems.map(cartItem =>new OrderItem(cartItem));
+
+    // set up purchase
+    let purchase = new Purchase();
+    // populate purchase - customer
+    purchase.customer=this.checkoutFormGroup.controls['customer'].value;
+    
+    // populate purchase - shipping address 
+    purchase.shippingAddress=this.checkoutFormGroup.controls['shippingAddress'].value;
+    const shippingState:State=JSON.parse(JSON.stringify(purchase.shippingAddress.state))
+    const shippingCountry:Country=JSON.parse(JSON.stringify(purchase.shippingAddress.country))
+    purchase.shippingAddress.state=shippingState.name;
+    purchase.shippingAddress.country=shippingCountry.name;
+    // populate purchase - billing address 
+
+    purchase.billingAddress=this.checkoutFormGroup.controls['billingAddress'].value;
+    const billingState:State=JSON.parse(JSON.stringify(purchase.billingAddress.state))
+    const billingCountry:Country=JSON.parse(JSON.stringify(purchase.billingAddress.country))
+    purchase.billingAddress.state=billingState.name;
+    purchase.billingAddress.country=billingCountry.name;
+
+    // populate purchase - order & orderItems
+    purchase.order=order;
+    purchase.orderItems=orderItems;
+
+    // call rest api via the checkout service
+
+    this._checkoutService.placeOrder(purchase).subscribe(
+
+      {
+        next: (response)=>{
+          console.log(response);
+          alert(`Your order has been received .\n order tracking number: ${response.orderTrackingNumber}`)
+          this.resetCart();
+        },
+        error:(response)=>{
+          console.log(response.message.error);
+        }
+      }
+    );
+
+  }
+
+  resetCart(){
+    this._cartService.cartItems=[];
+    this._cartService.totalPrice.next(0);
+    this._cartService.totalQuantity.next(0);
+
+    this.checkoutFormGroup.reset();
+
+    this._router.navigateByUrl("/products");
   }
 
   onGetCreditCardYear() {
@@ -174,7 +250,7 @@ export class CheckoutComponent implements OnInit {
     console.log(formGroup+" "+ countryName +" " +countryCode);
     
     this._checkoutService.getState(countryCode).subscribe((response)=>{
-      if(targetAddress==='shippingAddress'){
+      if(targetAddress=='shippingAddress'){
         this.statesShippingAddress=response;
       }else{
         this.statesBillingAddress=response;

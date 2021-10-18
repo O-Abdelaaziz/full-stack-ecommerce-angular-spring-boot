@@ -1,8 +1,6 @@
 package com.sprinboot.ecommerce.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,9 +12,9 @@ import java.math.BigDecimal;
  * @User LegendDZ
  * @Author Abdelaaziz Ouakala
  **/
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+
+@Getter
+@Setter
 @Entity
 @Table(name = "order_item")
 public class OrderItem {
@@ -36,7 +34,7 @@ public class OrderItem {
     @Column(name = "product_id")
     private Long productId;
 
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Order order;
 
