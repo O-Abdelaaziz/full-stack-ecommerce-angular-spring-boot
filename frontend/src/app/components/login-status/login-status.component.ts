@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginStatusComponent implements OnInit {
   isAuthenticated:boolean=false;
   userFullName:string='';
+
   constructor(private oktaAuthService:OktaAuthService) { }
 
   ngOnInit(): void {
