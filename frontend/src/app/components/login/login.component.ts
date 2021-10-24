@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OktaAuthStateService } from '@okta/okta-angular';
+import { OktaAuthService } from '@okta/okta-angular';
+import { OktaAuth, IDToken, AccessToken } from '@okta/okta-auth-js';
+
 import * as OktaSignIn from '@okta/okta-signin-widget';
 import appConfig from 'src/app/config/app-config';
 @Component({
@@ -11,7 +13,7 @@ import appConfig from 'src/app/config/app-config';
 export class LoginComponent implements OnInit {
 
   oktaSignIn:any;
-  constructor(private oktaAuthService:OktaAuthStateService) { 
+  constructor(private oktaAuthService:OktaAuthService) { 
     this.oktaSignIn=new OktaSignIn(
       {
         logo:'assets/images/logo.png',
@@ -28,7 +30,21 @@ export class LoginComponent implements OnInit {
 
   }
 
+  
+
   ngOnInit(): void {
+    this.oktaSignIn.remove();
+    this.oktaSignIn.renderEl({
+      el:'#okta-sign-in-widget'},
+      (response)=>{
+        if(response.status ==='SUCCESS'){
+          this.oktaAuthService.signInWithRedirect();
+        },
+        (error)=>{
+          throw error;
+        }
+      
+    });
   }
 
 }
