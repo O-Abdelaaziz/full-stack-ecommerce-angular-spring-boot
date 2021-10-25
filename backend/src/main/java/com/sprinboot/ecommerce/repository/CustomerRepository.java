@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * @User LegendDZ
  * @Author Abdelaaziz Ouakala
  **/
-@Repository
+//@Repository
 public interface CustomerRepository extends JpaRepository<Customer ,Long> {
     Customer findByEmail(String email);
 }

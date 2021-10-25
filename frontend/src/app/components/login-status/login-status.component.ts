@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginStatusComponent implements OnInit {
   isAuthenticated:boolean=false;
   userFullName:string='';
-
+  storage:Storage=localStorage;
   constructor(private oktaAuthService:OktaAuthService) { }
 
   ngOnInit(): void {
@@ -29,6 +29,7 @@ export class LoginStatusComponent implements OnInit {
       this.oktaAuthService.getUser().then(
         (response)=>{
           this.userFullName=response.name;
+          this.storage.setItem('email',JSON.stringify(response.email));
         }
       )
     }

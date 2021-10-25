@@ -1,9 +1,6 @@
 package com.sprinboot.ecommerce.config;
 
-import com.sprinboot.ecommerce.entity.Country;
-import com.sprinboot.ecommerce.entity.Product;
-import com.sprinboot.ecommerce.entity.ProductCategory;
-import com.sprinboot.ecommerce.entity.State;
+import com.sprinboot.ecommerce.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +28,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
     private EntityManager entityManager;
 
     @Value("${allowed.origins}")
-    private String allowedOrigins;
+    private String[] allowedOrigins;
+
     @Autowired
     public DataRestConfig(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -45,7 +43,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class,config, unSupportedActions);
         disableHttpMethods(Country.class,config, unSupportedActions);
         disableHttpMethods(State.class,config, unSupportedActions);
-        
+        disableHttpMethods(Order.class,config, unSupportedActions);
+
         exposeIds(config);
 
         cors.addMapping(config.getBasePath() + "/**").allowedOrigins(allowedOrigins);

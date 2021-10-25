@@ -1,3 +1,4 @@
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path:'cart-details',component:CartDetailsComponent},
   {path:'checkout',component:CheckoutComponent},
   {path:'members',component:MembersPageComponent,canActivate:[OktaAuthGuard]},
+  {path:'order-history',component:OrderHistoryComponent,canActivate:[OktaAuthGuard]},
   {path:'',redirectTo:'/products',pathMatch:'full'},
   {path:'**',redirectTo:'/products',pathMatch:'full'},
 ];
