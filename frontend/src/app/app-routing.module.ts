@@ -24,7 +24,7 @@ const routes: Routes = [
   {path:'products/:id',component:ProductDetailsComponent},
   {path:'cart-details',component:CartDetailsComponent},
   {path:'checkout',component:CheckoutComponent},
-  {path:'members',component:MembersPageComponent},
+  {path:'members',component:MembersPageComponent,canActivate:[OktaAuthGuard]},
   {path:'',redirectTo:'/products',pathMatch:'full'},
   {path:'**',redirectTo:'/products',pathMatch:'full'},
 ];

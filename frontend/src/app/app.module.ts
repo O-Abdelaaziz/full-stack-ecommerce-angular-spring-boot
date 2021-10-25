@@ -23,7 +23,7 @@ import { MembersPageComponent } from './components/members-page/members-page.com
 
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (injector) => {
+  onAuthRequired: (oktaAuth,injector) => {
     const router = injector.get(Router);
 
     // Redirect the user to your custom login page
