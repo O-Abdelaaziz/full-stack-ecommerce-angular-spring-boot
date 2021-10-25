@@ -5,6 +5,7 @@ import com.sprinboot.ecommerce.entity.Product;
 import com.sprinboot.ecommerce.entity.ProductCategory;
 import com.sprinboot.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -29,6 +30,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
 
     private EntityManager entityManager;
 
+    @Value("${allowed.origins}")
+    private String allowedOrigins;
     @Autowired
     public DataRestConfig(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -36,7 +39,7 @@ public class DataRestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
-        HttpMethod[] unSupportedActions = {HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE};
+        HttpMethod[] unSupportedActions = {HttpMethod.POST, HttpMethod.PUT, HttpMethod.DELETE,HttpMethod.PATCH};
 
         disableHttpMethods(Product.class,config, unSupportedActions);
         disableHttpMethods(ProductCategory.class,config, unSupportedActions);
@@ -44,6 +47,8 @@ public class DataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(State.class,config, unSupportedActions);
         
         exposeIds(config);
+
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(allowedOrigins);
     }
 
     private void disableHttpMethods(Class targetClass, RepositoryRestConfiguration config, HttpMethod[] unSupportedActions) {

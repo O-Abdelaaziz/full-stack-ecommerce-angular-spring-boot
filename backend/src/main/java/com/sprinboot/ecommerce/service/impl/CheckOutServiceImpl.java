@@ -53,7 +53,11 @@ public class CheckOutServiceImpl implements ICheckOutService {
         Customer customer=purchaseRequest.getCustomer();
         customer.add(order);
         // save to the database
+        Customer checkCustomer=customerRepository.findByEmail(customer.getEmail());
 
+        if(checkCustomer !=null){
+            customer=checkCustomer;
+        }
         customerRepository.save(customer);
         // return a response
         return new PurchaseResponse(orderTrackingNumber);
