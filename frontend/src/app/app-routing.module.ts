@@ -1,3 +1,4 @@
+import { MembersPageComponent } from './components/members-page/members-page.component';
 import { LoginComponent } from './components/login/login.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
@@ -8,6 +9,7 @@ import { ProductListComponent } from './components/product-list/product-list.com
 
 
 import {
+  OktaAuthGuard,
   OktaCallbackComponent
 } from '@okta/okta-angular';
 
@@ -22,6 +24,7 @@ const routes: Routes = [
   {path:'products/:id',component:ProductDetailsComponent},
   {path:'cart-details',component:CartDetailsComponent},
   {path:'checkout',component:CheckoutComponent},
+  {path:'members',component:MembersPageComponent},
   {path:'',redirectTo:'/products',pathMatch:'full'},
   {path:'**',redirectTo:'/products',pathMatch:'full'},
 ];

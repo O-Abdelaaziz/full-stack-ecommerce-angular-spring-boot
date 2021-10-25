@@ -19,6 +19,7 @@ import { ProductService } from './services/product.service';
 import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { Router } from '@angular/router';
 import appConfig from './config/app-config';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 
 const oktaConfig = Object.assign({
@@ -40,7 +41,8 @@ const oktaConfig = Object.assign({
     CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
-    LoginStatusComponent
+    LoginStatusComponent,
+    MembersPageComponent
   ],
   imports: [
     BrowserModule,
