@@ -4,12 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'https://localhost:8443/api';
+  private baseUrl = environment.backendUrl;
 
   constructor(private httpClient: HttpClient) {}
 

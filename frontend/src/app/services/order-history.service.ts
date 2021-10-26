@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { OrderHistory } from './../common/order-history';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -7,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderHistoryService {
-  private baseUrl = 'https://localhost:8443/api'
+  private baseUrl = environment.backendUrl;
   
   constructor(private httpClient:HttpClient) { }
 

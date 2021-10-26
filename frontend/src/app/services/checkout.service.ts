@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Purchase } from './../common/purchase';
 import { State } from './../common/state';
 import { map } from 'rxjs/operators';
@@ -11,7 +12,7 @@ import { Observable, of } from 'rxjs';
 })
 export class CheckoutService {
 
-  private baseUrl = 'https://localhost:8443/api'
+  private baseUrl = environment.backendUrl;
 
   constructor(private httpClient: HttpClient) {}
 
