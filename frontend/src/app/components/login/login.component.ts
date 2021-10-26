@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { OktaAuthService } from '@okta/okta-angular';
 import * as OktaSignIn from '@okta/okta-signin-widget';
@@ -8,7 +8,7 @@ import appConfig from 'src/app/config/app-config';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit,OnDestroy {
 
   oktaSignin: any;
 
@@ -37,6 +37,8 @@ export class LoginComponent implements OnInit {
     this.oktaSignin.renderEl({
       el: '#okta-sign-in-widget'}, // this name should be same as div tag id in login.component.html
       (response) => {
+        response.setHeader("Set-Cookie", response.getHeader("Set-Cookie") + "; SameSite=strict");
+
         if (response.status === 'SUCCESS') {
           this.oktaAuthService.signInWithRedirect();
         }
@@ -45,6 +47,10 @@ export class LoginComponent implements OnInit {
         throw error;
       }
     );
+  }
+
+  ngOnDestroy(){
+    this.oktaSignin.remove();
   }
 
 }
