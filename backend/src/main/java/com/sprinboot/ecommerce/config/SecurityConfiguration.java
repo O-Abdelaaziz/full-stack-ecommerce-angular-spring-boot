@@ -23,6 +23,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                .oauth2ResourceServer()
                .jwt();
        http.cors();
+       http.csrf().disable();
         Okta.configureResourceServer401ResponseBody(http);
     }
 }
