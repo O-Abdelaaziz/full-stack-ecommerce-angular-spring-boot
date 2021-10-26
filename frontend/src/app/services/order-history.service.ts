@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class OrderHistoryService {
-  private baseUrl = 'http://localhost:8080/api'
+  private baseUrl = 'https://localhost:8443/api'
   
   constructor(private httpClient:HttpClient) { }
 
